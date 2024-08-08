@@ -47,20 +47,24 @@ class WeatherClassificationModel:
         """
         status_code, output, error = "200", {}, ""
 
-        response = requests.get(url=image_url)
-        image_data = BytesIO(response.content)
-        image = self.preprocess(Image.open(image_data)).unsqueeze(0)
-        text = self.tokenizer(self.labels)
+        try:
+            response = requests.get(url=image_url)
+            image_data = BytesIO(response.content)
+            image = self.preprocess(Image.open(image_data)).unsqueeze(0)
+            text = self.tokenizer(self.labels)
 
-        with torch.no_grad(), torch.cuda.amp.autocast():
-            image_features = self.model.encode_image(image)
-            text_features = self.model.encode_text(text)
-            image_features /= image_features.norm(dim=-1, keepdim=True)
-            text_features /= text_features.norm(dim=-1, keepdim=True)
+            with torch.no_grad(), torch.cuda.amp.autocast():
+                image_features = self.model.encode_image(image)
+                text_features = self.model.encode_text(text)
+                image_features /= image_features.norm(dim=-1, keepdim=True)
+                text_features /= text_features.norm(dim=-1, keepdim=True)
 
-            text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
-            label_index = torch.argmax(text_probs)
-            output["label_index"] = label_index.detach().numpy().item()
+                text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
+                label_index = torch.argmax(text_probs)
+                output["label_index"] = label_index.detach().numpy().item()
+        except Exception as e:
+            error = str(e)
+            status_code = "5xx"
 
         return status_code, output, error
 
