@@ -1,0 +1,5 @@
+torch==2.4.0
+open_clip_torch==2.26.1
+inject==5.2.1
+uvicorn==0.30.5
+fastapi==0.112.0
