@@ -3,9 +3,9 @@ from model.model import WeatherClassificationModel
 
 class WeatherClassificationService:
     def __init__(
-        self, weather_classificaiton_model: WeatherClassificationModel
+        self, weather_classification_model: WeatherClassificationModel
     ) -> None:
-        self.model = weather_classificaiton_model
+        self.model = weather_classification_model
         self.label2weather = {
             0: "맑음",
             1: "흐림",

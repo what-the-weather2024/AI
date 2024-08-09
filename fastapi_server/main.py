@@ -1,7 +1,7 @@
 import os
 
 from fastapi_server.initializer import Initializer
-from fastapi_server.utils import FastAPIServer, get_controllers
+from fastapi_server.server import FastAPIServer, get_controllers
 
 Initializer()
 
