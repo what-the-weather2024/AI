@@ -30,7 +30,7 @@ class FastAPIServer:
             return {"code": 200}
 
     def run(self):
-        uvicorn.run(self.app, host="127.0.0.1", port=8000)
+        uvicorn.run(self.app, host="0.0.0.0", port=8000)
 
 
 def get_controllers(modules):
