@@ -53,7 +53,7 @@ class WeatherClassificationModel:
             image = self.preprocess(Image.open(image_data)).unsqueeze(0)
             text = self.tokenizer(self.labels)
 
-            with torch.no_grad(): #, torch.cuda.amp.autocast()
+            with torch.no_grad(), torch.cuda.amp.autocast():
                 image_features = self.model.encode_image(image)
                 text_features = self.model.encode_text(text)
                 image_features /= image_features.norm(dim=-1, keepdim=True)
