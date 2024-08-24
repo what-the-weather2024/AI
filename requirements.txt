@@ -1,5 +1,8 @@
-torch==2.4.0
-open_clip_torch==2.26.1
-inject==5.2.1
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==2.0.0+cpu # mac os 에서는 +cpu 제거
+open_clip_torch==2.20.0
+torchvision==0.15.1
+inject==4.3.1
 uvicorn==0.30.5
 fastapi==0.112.0
+typing-extensions==4.12.2

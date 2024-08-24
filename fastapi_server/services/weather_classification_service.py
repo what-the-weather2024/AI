@@ -31,9 +31,11 @@ class WeatherClassificationService:
         else:
             label = output["label_index"]
             weather = self.label2weather[label]
+            prob = output["confidence"]
 
         return {
             "status_code": status_code,
             "weather": weather,
+            "prob": prob,
             "error": error,
         }

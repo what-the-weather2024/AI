@@ -61,7 +61,9 @@ class WeatherClassificationModel:
 
                 text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
                 label_index = torch.argmax(text_probs)
+                confidence = max(text_probs[0])
                 output["label_index"] = label_index.detach().numpy().item()
+                output["confidence"] = round(confidence.detach().numpy().item(), 3)
         except Exception as e:
             error = str(e)
             status_code = "5xx"
