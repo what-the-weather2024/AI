@@ -53,7 +53,7 @@ class WeatherClassificationModel:
             image = self.preprocess(Image.open(image_data)).unsqueeze(0)
             text = self.tokenizer(self.labels)
 
-            with torch.no_grad(), torch.cuda.amp.autocast():
+            with torch.no_grad(): #, torch.cuda.amp.autocast()
                 image_features = self.model.encode_image(image)
                 text_features = self.model.encode_text(text)
                 image_features /= image_features.norm(dim=-1, keepdim=True)
@@ -61,7 +61,9 @@ class WeatherClassificationModel:
 
                 text_probs = (100.0 * image_features @ text_features.T).softmax(dim=-1)
                 label_index = torch.argmax(text_probs)
+                confidence = max(text_probs[0])
                 output["label_index"] = label_index.detach().numpy().item()
+                output["confidence"] = round(confidence.detach().numpy().item(), 3)
         except Exception as e:
             error = str(e)
             status_code = "5xx"
